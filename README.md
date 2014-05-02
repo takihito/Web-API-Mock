@@ -12,11 +12,11 @@ Web::API::Mock is ...
 
 # LICENSE
 
-Copyright (C) Takeda Akihito.
+Copyright (C) akihito.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 # AUTHOR
 
-Takeda Akihito <takeda.akihito@gmail.com>
+akihito <takeda.akihito@gmail.com>
