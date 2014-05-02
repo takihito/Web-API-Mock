@@ -44,6 +44,9 @@
       },
       "runtime" : {
          "requires" : {
+            "Class::Accessor::Lite" : "0",
+            "Plack" : "0",
+            "Text::Markdown::Hoedown" : "1.01",
             "perl" : "5.008005"
          }
       },
@@ -54,5 +57,16 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/takihito/Web-API-Mock/issues"
+      },
+      "homepage" : "https://github.com/takihito/Web-API-Mock",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/takihito/Web-API-Mock.git",
+         "web" : "https://github.com/takihito/Web-API-Mock"
+      }
+   },
    "version" : "0.01"
 }
