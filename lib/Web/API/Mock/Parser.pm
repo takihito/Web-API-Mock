@@ -78,12 +78,14 @@ sub _callback {
     $cb->header( sub {
         $self->_add_api();
 
-        $self->_resource_name($_[0]);
-        $self->_header({});
-        $self->_body('');
         my ($method, $url) = split(' ', $_[0]);
-        $self->_url($url);
-        $self->_method($method);
+        if ( $method =~ /^(GET|POST|PUT|DELETE)$/ ){
+            $self->_header({});
+            $self->_body('');
+            $self->_url($url);
+            $self->_method($method);
+            $self->_resource_name($_[0]);
+        }
     } );
 
     $cb->paragraph( sub {

@@ -31,9 +31,15 @@ sub add_resource {
 
 sub request {
     my ($self, $method, $url) = @_;
-    if ( my $resource = $self->resources->{$url} ) {
-        return $resource->response($method);
+
+    my $resource = $self->resources->{$url};
+    unless ($resource) {
+        $url =~ s/^(.*\/).+?$/$1\{/;
+        ($url) = grep { m!^$url! } @{$self->url_list};
+        $resource = $self->resources->{$url};
     }
+    return $resource->response($method) if $resource;
+
     return;
 }
 

@@ -59,7 +59,7 @@ subtest parse_md => sub {
             Hello World
             Bar
 
-## GET /api/fizz
+## GET /api/fizz/{id}
 
 + Response 200 (text/plain)
 
@@ -87,8 +87,11 @@ subtest request => sub {
     is $response->{status}, 200;
 
     $response = $map->request('GET', '/api/fizz');
+    ok !$response->{status};
+
+    $response = $map->request('GET', '/api/fizz/12345');
     is $response->{status}, 200;
-    is $response->{content_type}, 'text/plain';
+#    is $response->{content_type}, 'text/plain';
 
     $response = $map->request('POST', '/api/bar');
     ok !$response->{status};
