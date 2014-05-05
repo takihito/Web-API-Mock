@@ -9,10 +9,11 @@ use Getopt::Long qw/GetOptions :config auto_help pass_through/;
 
 GetOptions(\my %options, qw/
     files=s@
+    not_implement=s
 /);
 
 my $mock = Web::API::Mock->new();
-$mock->setup($options{files});
+$mock->setup($options{files}, $options{not_implement});
 my $app = $mock->psgi();
 
 my $runner = Plack::Runner->new;
@@ -31,7 +32,7 @@ run-api-mock - It's Plack Server
 
     $ run-api-mock -f api1.md -f api2.md
      :
-    $ run-api-mock --files api.md --port 8080
+    $ run-api-mock --files api.md --not_implement url.txt --port 8080
 
 =cut
 

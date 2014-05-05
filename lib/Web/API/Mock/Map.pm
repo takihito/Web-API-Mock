@@ -15,21 +15,14 @@ use Class::Accessor::Lite (
 sub init {
     my ($self) = @_;
 
-    $self->add_resource( '/', {
-        status       => 404,
-        content_type => 'text/plain',
-        method       => 'GET',
-        header       => '',
-        body         => '404 Not Found'
-    });
+    $self->resources({});
+
+    $self->add_resource( '/',  Web::API::Mock::Resource->status_404);
 }
 
 
 sub add_resource {
     my ($self, $url, $args) = @_;
-
-    $self->resources({})
-        unless $self->resources;
 
     my $resource = $self->resources->{$url} || Web::API::Mock::Resource->new();
     $resource->add({
@@ -47,7 +40,7 @@ sub request {
 
     my $resource = $self->resources->{$url} ? $self->resources->{$url} : '';
     unless ($resource) {
-        $url =~ s/^(.+\/).+?$/$1\{/;
+        $url =~ s!^(.+\/).+?$!$1\{\.+?}!;
         ($url) = grep { m!^$url! } @{$self->url_list};
         if ( $url && $self->resources->{$url} ) {
             $resource = $self->resources->{$url};

@@ -5,26 +5,38 @@ use warnings;
 
 use Plack::Request;
 use Web::API::Mock::Parser;
+use Web::API::Mock::Resource;
 use Class::Accessor::Lite (
     new => 1,
-    rw  => [ qw/config files map/ ],
+    rw  => [ qw/config files not_implemented_url map/ ],
 );
 
 our $VERSION = "0.01";
 
-
 sub setup {
-    my ($self, $files) = @_;
+    my ($self, $files, $not_implement) = @_;
     my $markdown;
     for my $file (@{$files}) {
         open my $fh, "<:encoding(utf8)", $file or die "cannot open file. $file:$!";
         while ( my $line = <$fh> ) {
             $markdown .= $line;
         }
+        close($fh);
     }
     my $parser = Web::API::Mock::Parser->new();
     $parser->md($markdown);
     $self->map($parser->create_map());
+
+    $self->not_implemented_url([]);
+    if ($not_implement) {
+        open my $fh, "<:encoding(utf8)", $not_implement or die "cannot open file. $not_implement:$!";
+        while ( my $line = <$fh> ) {
+            chomp $line;
+            $line =~ s/\ //g;
+            push @{$self->not_implemented_url}, $line;
+        }
+        close($fh);
+    }
 }
 
 sub psgi {
@@ -37,18 +49,35 @@ sub psgi {
 
         my $response = $self->map->request($req->method, $req->path_info);
         if ($response && $response->{status}) {
-            $plack_response->headers($response->{header});
-            $plack_response->content_type($response->{content_type});
-            $plack_response->status($response->{status});
-            $plack_response->body($response->{body});
+           if ($self->check_implemented_url($req->method, $req->path_info)) {
+                $response  = Web::API::Mock::Resource->status_501;
+           }
         }
         else {
-            $plack_response->status(404);
-            $plack_response->content_type('text/plain');
-            $plack_response->body('404 Not Found');
+             $response  = Web::API::Mock::Resource->status_404;
         }
+
+        $plack_response->headers($response->{header});
+        $plack_response->content_type($response->{content_type});
+        $plack_response->status($response->{status});
+        $plack_response->body($response->{body});
         $plack_response->finalize;
     };
+}
+
+sub check_implemented_url {
+    my ($self, $method, $path) = @_;
+
+    return if ( ref $self->not_implemented_url ne 'ARRAY');
+
+    my $target = join(',', $method,$path);
+    my ($url) = grep { m!^$target$! } @{$self->not_implemented_url};
+    # TODO 再帰
+    unless ($url) {
+        $target =~ s!^(.+\/).+?$!$1\{.+?}!;
+        ($url) = grep { m!^$target$! } @{$self->not_implemented_url};
+    }
+    return $url;
 }
 
 1;
