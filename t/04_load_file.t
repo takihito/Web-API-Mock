@@ -11,6 +11,9 @@ my $mock = Web::API::Mock->new();
 
 subtest load_file => sub {
     $mock->setup(['t/md/api.md', 't/md/hello.md']);
+
+    note explain $mock->map->url_list;
+
     is 1,1;
 };
 
@@ -49,7 +52,12 @@ test_psgi $app, sub {
          like $res->status_line, qr/404/;
      };
 
-
+     subtest root => sub {
+         my $req = HTTP::Request->new(GET => "http://localhost/");
+         my $res = $cb->($req);
+         like $res->status_line, qr/404/;
+         note $res->content;
+     };
 
 };
 

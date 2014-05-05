@@ -12,6 +12,19 @@ use Class::Accessor::Lite (
     rw  => [ qw/resources/ ]
 );
 
+sub init {
+    my ($self) = @_;
+
+    $self->add_resource( '/', {
+        status       => 404,
+        content_type => 'text/plain',
+        method       => 'GET',
+        header       => '',
+        body         => '404 Not Found'
+    });
+}
+
+
 sub add_resource {
     my ($self, $url, $args) = @_;
 

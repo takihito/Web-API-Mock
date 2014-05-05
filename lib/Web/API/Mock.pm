@@ -29,8 +29,9 @@ sub setup {
 
 sub psgi {
     my $self = shift;
-    sub { 
+    sub {
         my $env = shift;
+
         my $req = Plack::Request->new($env);
         my $plack_response = $req->new_response(404);
 
@@ -49,15 +50,6 @@ sub psgi {
         $plack_response->finalize;
     };
 }
-
-#  use Plack::Runner;
-#  my $app = sub { ... };
-#
-#  my $runner = Plack::Runner->new;
-#  $runner->parse_options(@ARGV);
-#  $runner->run($app);
-
-
 
 1;
 __END__
