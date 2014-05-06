@@ -8,13 +8,13 @@ use Web::API::Mock::Parser;
 use Web::API::Mock::Resource;
 use Class::Accessor::Lite (
     new => 1,
-    rw  => [ qw/config files not_implemented_url map/ ],
+    rw  => [ qw/config files not_implemented_urls map/ ],
 );
 
 our $VERSION = "0.01";
 
 sub setup {
-    my ($self, $files, $not_implement) = @_;
+    my ($self, $files, $not_implemented_url_file) = @_;
     my $markdown;
     for my $file (@{$files}) {
         open my $fh, "<:encoding(utf8)", $file or die "cannot open file. $file:$!";
@@ -27,13 +27,13 @@ sub setup {
     $parser->md($markdown);
     $self->map($parser->create_map());
 
-    $self->not_implemented_url([]);
-    if ($not_implement) {
-        open my $fh, "<:encoding(utf8)", $not_implement or die "cannot open file. $not_implement:$!";
+    $self->not_implemented_urls([]);
+    if ($not_implemented_url_file) {
+        open my $fh, "<:encoding(utf8)", $not_implemented_url_file or die "cannot open file. $not_implemented_url_file:$!";
         while ( my $line = <$fh> ) {
             chomp $line;
             $line =~ s/\ //g;
-            push @{$self->not_implemented_url}, $line;
+            push @{$self->not_implemented_urls}, $line;
         }
         close($fh);
     }
@@ -68,14 +68,14 @@ sub psgi {
 sub check_implemented_url {
     my ($self, $method, $path) = @_;
 
-    return if ( ref $self->not_implemented_url ne 'ARRAY');
+    return if ( ref $self->not_implemented_urls ne 'ARRAY');
 
     my $target = join(',', $method,$path);
-    my ($url) = grep { m!^$target$! } @{$self->not_implemented_url};
+    my ($url) = grep { m!^$target$! } @{$self->not_implemented_urls};
     # TODO 再帰
     unless ($url) {
         $target =~ s!^(.+\/).+?$!$1\{.+?}!;
-        ($url) = grep { m!^$target$! } @{$self->not_implemented_url};
+        ($url) = grep { m!^$target$! } @{$self->not_implemented_urls};
     }
     return $url;
 }
