@@ -46,15 +46,16 @@ sub psgi {
 
         my $req = Plack::Request->new($env);
         my $plack_response = $req->new_response(404);
+        my $response  = Web::API::Mock::Resource->status_404;
 
-        my $response = $self->map->request($req->method, $req->path_info);
-        if ($response && $response->{status}) {
-           if ($self->check_implemented_url($req->method, $req->path_info)) {
-                $response  = Web::API::Mock::Resource->status_501;
-           }
+        if ($self->check_implemented_url($req->method, $req->path_info)) {
+            $response  = Web::API::Mock::Resource->status_501;
         }
         else {
-             $response  = Web::API::Mock::Resource->status_404;
+            $response = $self->map->request($req->method, $req->path_info);
+            if (!$response || !$response->{status}) {
+                $response  = Web::API::Mock::Resource->status_404;
+            }
         }
 
         $plack_response->headers($response->{header});
