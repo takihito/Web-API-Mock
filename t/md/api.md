@@ -78,7 +78,39 @@ This is a test document.
             }
 
 
-## OPTIONS /api/v2/app/account
+## GET /api/xyz
+
+hoge hoge ....
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status" : 200,
+                "result": {
+                    "ok": 1
+                }
+            }
+
+
+## GET /api/abc/{id}
+
+hoge hoge ....
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status" : 200,
+                "result": {
+                    "ok": 1
+                }
+            }
+
+
+## OPTIONS /api/account
 
 hoge hoge ....
 
@@ -93,4 +125,5 @@ hoge hoge ....
                     "ng": 1
                 }
             }
+
 

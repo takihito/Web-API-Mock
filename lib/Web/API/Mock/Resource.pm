@@ -44,5 +44,24 @@ sub response {
 
 }
 
+sub status_404 {
+    return {
+        status       => 404,
+        content_type => 'text/plain',
+        method       => 'GET',
+        header       => '',
+        body         => '404 Not Found'
+    }
+}
+
+sub status_501 {
+    return {
+        status       => 501,
+        content_type => 'text/plain',
+        method       => 'GET',
+        header       => '',
+        body         => '501 Not Implemented'
+    }
+}
 
 1;
