@@ -10,7 +10,7 @@ use_ok $_ for qw(
 my $mock = Web::API::Mock->new();
 
 subtest load_file => sub {
-    $mock->setup(['t/md/api.md', 't/md/hello.md'], 't/501_url.txt');
+    $mock->setup(['t/md/api.md', 't/md/hello.md'], 't/not-implemented-urls.txt');
 
     note explain $mock->map->url_list;
 
