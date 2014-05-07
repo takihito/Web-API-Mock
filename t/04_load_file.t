@@ -10,7 +10,10 @@ use_ok $_ for qw(
 my $mock = Web::API::Mock->new();
 
 subtest load_file => sub {
-    $mock->setup(['t/md/api.md', 't/md/hello.md']);
+    $mock->setup(['t/md/api.md', 't/md/hello.md'], 't/not-implemented-urls.txt');
+
+    note explain $mock->map->url_list;
+
     is 1,1;
 };
 
@@ -48,6 +51,26 @@ test_psgi $app, sub {
          my $res = $cb->($req);
          like $res->status_line, qr/404/;
      };
+
+     subtest root => sub {
+         my $req = HTTP::Request->new(GET => "http://localhost/");
+         my $res = $cb->($req);
+         like $res->status_line, qr/404/;
+         note $res->content;
+     };
+
+     subtest not_implemented_url => sub {
+         my $req = HTTP::Request->new(GET => "http://localhost/api/xyz");
+         my $res = $cb->($req);
+         like $res->status_line, qr/501/;
+         $req = HTTP::Request->new(GET => "http://localhost/api/abc/1234");
+         $res = $cb->($req);
+         like $res->status_line, qr/501/;
+
+         note $res->content;
+     };
+
+
 
 
 

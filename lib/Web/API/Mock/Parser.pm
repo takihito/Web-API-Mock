@@ -29,7 +29,7 @@ sub create_map {
     }
 
     my $map = Web::API::Mock::Map->new();
-
+    $map->init();
     for my $name ( keys %{$self->api} ) {
         $map->add_resource( $self->api->{$name}->{url}, {
             status       => $self->api->{$name}->{status},
@@ -71,27 +71,28 @@ sub _callback {
 
     } );
 
+    # TODO 
     $cb->blockquote( sub {} );
 
+    # TODO
     $cb->blockhtml( sub {} );
 
     $cb->header( sub {
         $self->_add_api();
 
         my ($method, $url) = split(' ', $_[0]);
-        if ( $method =~ /^(GET|POST|PUT|DELETE)$/ ){
-            $self->_header({});
-            $self->_body('');
-            $self->_url($url);
-            $self->_method($method);
-            $self->_resource_name($_[0]);
-        }
+        $self->_header({});
+        $self->_body('');
+        $self->_url($url);
+        $self->_method($method);
+        $self->_resource_name($_[0]);
     } );
 
     $cb->paragraph( sub {
         $self->_paragraph($_[0]);
     } );
 
+    # TODO 
     $cb->list(sub{});
 
     $cb->listitem(sub{
@@ -110,7 +111,7 @@ sub _callback {
 
 sub _add_api {
     my $self = shift;
-    if ( $self->_resource_name && $self->_url && $self->_method ) {
+    if ( $self->_resource_name && $self->_url && $self->_method && $self->_method =~ /^(GET|POST|PUT|DELETE)$/ ){
         $self->api->{$self->_resource_name} = {
             content_type => $self->_content_type // '',
             status => $self->_status // '',
