@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Web::API::Mock;
 use Plack::Runner;
+use FindBin::libs;
 
 use Getopt::Long qw/GetOptions :config posix_default auto_help pass_through/;
 
