@@ -41,6 +41,18 @@ subtest parse_md => sub {
                 }
             }
 
+## GET /api/comment/{thread_id}/{number}
+
++ Request
+
++ Response 200 (text/html)
+
+    + Body
+
+            <html>
+            <body>foobar</body>
+            </html>
+
 ...
 
     $map = $parser->create_map();
@@ -69,10 +81,10 @@ test_psgi $app, sub {
      subtest user_request => sub {
          my $req = HTTP::Request->new(GET => "http://localhost/api/user");
          my $res = $cb->($req);
-         like $res->content, qr!<html>.*</html>!s;
+         like $res->content, qr!<html>.*akihito.*</html>!s;
      };
 
-     subtest user_request => sub {
+     subtest comment => sub {
          my $req = HTTP::Request->new(POST => "http://localhost/api/comment");
          my $res = $cb->($req);
          like $res->status_line, qr/201/;
@@ -94,6 +106,12 @@ test_psgi $app, sub {
          like $res->content, qr!404!s;
          like $res->status_line, qr/404/;
          is $res->content_type, 'text/plain';
+     };
+
+     subtest get_comment => sub {
+         my $req = HTTP::Request->new(GET => "http://localhost/api/comment/9999/123");
+         my $res = $cb->($req);
+         like $res->content, qr!<html>.*foo.*</html>!s;
      };
 
 };
