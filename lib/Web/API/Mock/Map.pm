@@ -5,11 +5,12 @@ use warnings;
 
 our $VERSION = "0.01";
 
-use  Web::API::Mock::Resource;
+use Web::API::Mock::Resource;
+use Router::Simple;
 
 use Class::Accessor::Lite (
     new => 1,
-    rw  => [ qw/resources/ ]
+    rw  => [ qw/resources router/ ]
 );
 
 sub init {
@@ -23,6 +24,13 @@ sub init {
 
 sub add_resource {
     my ($self, $url, $args) = @_;
+
+    $self->router(Router::Simple->new()) unless $self->router;
+    my $path  = sprintf("%s:%s", $args->{method}, $url);
+    $self->router->connect($path, {
+        url    => $url,
+        method => $args->{method}
+    });
 
     my $resource = $self->resources->{$url} || Web::API::Mock::Resource->new();
     $resource->add({
@@ -38,17 +46,15 @@ sub add_resource {
 sub request {
     my ($self, $method, $url) = @_;
 
-    my $resource = $self->resources->{$url} ? $self->resources->{$url} : '';
-    unless ($resource) {
-        $url =~ s!^(.+\/).+?$!$1\{\.+?}!;
-        ($url) = grep { m!^$url! } @{$self->url_list};
-        if ( $url && $self->resources->{$url} ) {
-            $resource = $self->resources->{$url};
-        }
-    }
-    return $resource->response($method) if $resource;
+    my $path  = sprintf("%s:%s", $method, $url);
+    my $match = $self->router->match($path);
 
-    return;
+     if ($match && $match->{method} && $match->{url}) {
+         my $resource = $self->resources->{$match->{url}};
+         return $resource->response($method) if $resource;
+     }
+
+     return;
 }
 
 sub url_list {

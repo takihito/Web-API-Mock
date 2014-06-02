@@ -111,7 +111,10 @@ sub _callback {
 
 sub _add_api {
     my $self = shift;
-    if ( $self->_resource_name && $self->_url && $self->_method && $self->_method =~ /^(GET|POST|PUT|DELETE)$/ ){
+    # APIドキュメント上でコメント等に利用するため
+    # GET,POST,PUT,DELETE以外のメソッドは無視する
+    if ( $self->_resource_name && $self->_url && $self->_method &&
+         $self->_method =~ /^(GET|POST|PUT|DELETE)$/ ) {
         $self->api->{$self->_resource_name} = {
             content_type => $self->_content_type // '',
             status => $self->_status // '',
