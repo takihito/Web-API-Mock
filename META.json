@@ -47,6 +47,7 @@
             "Class::Accessor::Lite" : "0",
             "FindBin::libs" : "0",
             "Plack" : "0",
+            "Router::Simple" : "0",
             "Text::Markdown::Hoedown" : "1.01",
             "perl" : "5.008005"
          }

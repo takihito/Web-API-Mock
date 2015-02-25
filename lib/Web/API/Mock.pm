@@ -92,11 +92,21 @@ Web::API::Mock - It's new $module
 
 =head1 SYNOPSIS
 
-    use Web::API::Mock;
+    $ git clone  git@github.com:takihito/Web-API-Mock.git 
+    $ cpanm ./Web-API-Mock
+    
+    or
+    
+    $ cpanm Web::API::Mock
+    
+    :
+    $ run-api-mock --help
+    Usage:
+            $ run-api-mock --files api.md --not-implemented-urls url.txt --port 8080
 
 =head1 DESCRIPTION
 
-Web::API::Mock is ...
+See README.md ...
 
 =head1 LICENSE
 

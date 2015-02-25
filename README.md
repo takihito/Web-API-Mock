@@ -15,6 +15,11 @@ Web::API::Mock - It's new $module
 <pre>
 $ git clone  git@github.com:takihito/Web-API-Mock.git 
 $ cpanm ./Web-API-Mock
+
+or
+
+$ cpanm Web::API::Mock
+
 :
 $ run-api-mock --help 
 Usage:
