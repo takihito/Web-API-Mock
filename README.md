@@ -4,13 +4,21 @@ Web::API::Mock - It's new $module
 
 # SYNOPSIS
 
-    use Web::API::Mock;
+    $ git clone  git@github.com:takihito/Web-API-Mock.git 
+    $ cpanm ./Web-API-Mock
+    
+    or
+    
+    $ cpanm Web::API::Mock
+    
+    :
+    $ run-api-mock --help
+    Usage:
+            $ run-api-mock --files api.md --not-implemented-urls url.txt --port 8080
 
 # DESCRIPTION
 
-
-
-## Install 
+\## Install 
 
 <pre>
 $ git clone  git@github.com:takihito/Web-API-Mock.git 
@@ -26,52 +34,51 @@ Usage:
         $ run-api-mock --files api.md --not-implemented-urls url.txt --port 8080
 </pre>
 
+\## Create API Documentation
 
-## Create API Documentation
-
-* http://apiblueprint.org
+\* http://apiblueprint.org
 
 <pre>
-# api.md 
+\# api.md 
 
-## GET /hello
+\## GET /hello
 
-+ Response 200 (text/plain)
+\+ Response 200 (text/plain)
 
         Hello World
 </pre>
 
-## Start Mock Server
+\## Start Mock Server
 
 <pre>
 $ run-api-mock --files api.md 
 HTTP::Server::PSGI: Accepting connections at http://0:5000
 </pre>
 
-## Options
+\## Options
 
-* files
- * API Document Files.
+\* files
+ \* API Document Files.
 
 <pre>
 $ run-api-mock --files api1.md --files api2.md
 </pre>
 
-* not-implemented-urls
- * Add "501 Not Implemented" info (Method and URL). 
+\* not-implemented-urls
+ \* Add "501 Not Implemented" info (Method and URL). 
 
 <pre>
 GET,/hello/hoge
 POST,/hello/foo
 </pre>
 
-* port
- * server port
+\* port
+ \* server port
 
-* Other...
- * plackup options 
+\* Other...
+ \* plackup options 
 
-## Switch to the Production API 
+\## Switch to the Production API 
 
 By using nginx 
 
@@ -82,11 +89,11 @@ $ run-api-mock --files api.md --not-implemented-urls url.txt --port 5001
 </pre>
 
 <pre>
-upstream mock_backend {
+upstream mock\_backend {
    server 127.0.0.1:5001;
 }
 
-upstream prod_backend {
+upstream prod\_backend {
    server 127.0.0.1:5002;
 }
 
@@ -107,7 +114,6 @@ server {
         proxy_set_header Host $host;
     }
 </pre>
-
 
 # LICENSE
 
