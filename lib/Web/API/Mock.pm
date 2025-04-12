@@ -75,7 +75,7 @@ sub check_implemented_url {
     my ($url) = grep { m!^$target$! } @{$self->not_implemented_urls};
     # TODO 再帰
     unless ($url) {
-        $target =~ s!^(.+\/).+?$!$1\{.+?}!;
+        $target =~ s!^(.+\/).+?$!$1\{.+?\}!;
         ($url) = grep { m!^$target$! } @{$self->not_implemented_urls};
     }
     return $url;
@@ -92,13 +92,13 @@ Web::API::Mock - It's new $module
 
 =head1 SYNOPSIS
 
-    $ git clone  git@github.com:takihito/Web-API-Mock.git 
+    $ git clone  git@github.com:takihito/Web-API-Mock.git
     $ cpanm ./Web-API-Mock
-    
+
     or
-    
+
     $ cpanm Web::API::Mock
-    
+
     :
     $ run-api-mock --help
     Usage:
@@ -106,10 +106,10 @@ Web::API::Mock - It's new $module
 
 =head1 DESCRIPTION
 
-## Install 
+## Install
 
 <pre>
-$ git clone  git@github.com:takihito/Web-API-Mock.git 
+$ git clone  git@github.com:takihito/Web-API-Mock.git
 $ cpanm ./Web-API-Mock
 
 or
@@ -117,7 +117,7 @@ or
 $ cpanm Web::API::Mock
 
 :
-$ run-api-mock --help 
+$ run-api-mock --help
 Usage:
         $ run-api-mock --files api.md --not-implemented-urls url.txt --port 8080
 </pre>
@@ -128,7 +128,7 @@ Usage:
 * http://apiblueprint.org
 
 <pre>
-# api.md 
+# api.md
 
 ## GET /hello
 
@@ -140,7 +140,7 @@ Usage:
 ## Start Mock Server
 
 <pre>
-$ run-api-mock --files api.md 
+$ run-api-mock --files api.md
 HTTP::Server::PSGI: Accepting connections at http://0:5000
 </pre>
 
@@ -154,7 +154,7 @@ $ run-api-mock --files api1.md --files api2.md
 </pre>
 
 * not-implemented-urls
- * Add "501 Not Implemented" info (Method and URL). 
+ * Add "501 Not Implemented" info (Method and URL).
 
 <pre>
 GET,/hello/hoge
@@ -165,11 +165,11 @@ POST,/hello/foo
  * server port
 
 * Other...
- * plackup options 
+ * plackup options
 
-## Switch to the Production API 
+## Switch to the Production API
 
-By using nginx 
+By using nginx
 
 see not-implemented-urls option.
 
@@ -188,8 +188,8 @@ upstream prod_backend {
 
 server {
 
-: 
-: 
+:
+:
 
     location ~ ^/ {
          proxy_intercept_errors on;
