@@ -25,3 +25,5 @@ cover_db/
 MYMETA.*
 
 /Web-API-Mock-*
+
+cpanfile.snapshot

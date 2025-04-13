@@ -2,6 +2,10 @@ Revision history for Perl extension Web-API-Mock
 
 {{$NEXT}}
 
+0.02 2025-04-13T04:07:21Z
+
+    - Placeholder for the next release. Update this with actual changes.
+
 0.02 2025-04-13T00:00:00Z
 
     - Added new features and fixed bugs.
@@ -9,4 +13,3 @@ Revision history for Perl extension Web-API-Mock
 0.01 2015-02-25T10:40:10Z
 
     - original version
-
