@@ -11,7 +11,7 @@ use Class::Accessor::Lite (
     rw  => [ qw/config files not_implemented_urls map/ ],
 );
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 sub setup {
     my ($self, $files, $not_implemented_url_file) = @_;
