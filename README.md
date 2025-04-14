@@ -18,9 +18,9 @@ Web::API::Mock - It's new $module
 
 # DESCRIPTION
 
-## Install
+\## Install
 
-<pre>
+&lt;pre>
 $ git clone  git@github.com:takihito/Web-API-Mock.git
 $ cpanm ./Web-API-Mock
 
@@ -32,63 +32,63 @@ $ cpanm Web::API::Mock
 $ run-api-mock --help
 Usage:
         $ run-api-mock --files api.md --not-implemented-urls url.txt --port 8080
-</pre>
+&lt;/pre>
 
-## Create API Documentation
+\## Create API Documentation
 
-* http://apiblueprint.org
+\* http://apiblueprint.org
 
-<pre>
-# api.md
+&lt;pre>
+\# api.md
 
-## GET /hello
+\## GET /hello
 
-+ Response 200 (text/plain)
+\+ Response 200 (text/plain)
 
         Hello World
 </pre>
 
-## Start Mock Server
+\## Start Mock Server
 
-<pre>
+&lt;pre>
 $ run-api-mock --files api.md
 HTTP::Server::PSGI: Accepting connections at http://0:5000
-</pre>
+&lt;/pre>
 
-## Options
+\## Options
 
-* files
- * API Document Files.
+\* files
+ \* API Document Files.
 
-<pre>
+&lt;pre>
 $ run-api-mock --files api1.md --files api2.md
-</pre>
+&lt;/pre>
 
-* not-implemented-urls
- * Add "501 Not Implemented" info (Method and URL).
+\* not-implemented-urls
+ \* Add "501 Not Implemented" info (Method and URL).
 
-<pre>
+&lt;pre>
 GET,/hello/hoge
 POST,/hello/foo
-</pre>
+&lt;/pre>
 
-* port
- * server port
+\* port
+ \* server port
 
-* Other...
- * plackup options
+\* Other...
+ \* plackup options
 
-## Switch to the Production API
+\## Switch to the Production API
 
 By using nginx
 
 see not-implemented-urls option.
 
-<pre>
+&lt;pre>
 $ run-api-mock --files api.md --not-implemented-urls url.txt --port 5001
-</pre>
+&lt;/pre>
 
-<pre>
+&lt;pre>
 upstream mock\_backend {
    server 127.0.0.1:5001;
 }
@@ -125,9 +125,3 @@ it under the same terms as Perl itself.
 # AUTHOR
 
 akihito <takeda.akihito@gmail.com>
-
-
-
-
-
-
